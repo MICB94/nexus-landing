@@ -8,6 +8,8 @@ node_modules/
 out/
 build/
 dist/
+# Backend (por si se compila)
+backend/dist/
 
 # Env (no versionar secretos)
 .env

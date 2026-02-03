@@ -1,0 +1,19 @@
+{
+  "name": "nexus-resolver",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Resolver de acceso: redirige a la URL de login de cada cliente (single-tenant). Para Render.",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "express": "^4.21.0"
+  }
+}
