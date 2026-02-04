@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import MessengerChat from "./components/MessengerChat";
+import { ContactChatProvider } from "./components/ContactChatContext";
+import ContactChatButton from "./components/ContactChatButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,8 +25,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.className} bg-background text-foreground min-h-screen antialiased`}>
-        {children}
-        <MessengerChat />
+        <ContactChatProvider>
+          {children}
+          <ContactChatButton />
+        </ContactChatProvider>
       </body>
     </html>
   );
