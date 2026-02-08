@@ -730,6 +730,9 @@ export default function HomePage() {
                 </>
               ) : null}
             </p>
+            <p>
+              <a href={`${APP_LOGIN_URL}/admin`} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-700 transition underline underline-offset-2 text-xs">Administración de la página</a>
+            </p>
           </div>
         </footer>
       </main>

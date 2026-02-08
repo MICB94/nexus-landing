@@ -82,10 +82,20 @@ insert into public.client_logins (slug, login_url, name) values
 ```bash
 cd backend
 cp .env.example .env
-# Edita .env con SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, ALLOWED_REDIRECT_HOSTS
+# Edita .env con SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, ALLOWED_REDIRECT_HOSTS, ADMIN_PASSWORD (para /admin)
 npm install
 npm run dev
 ```
+
+### Panel de administración (interfaz gráfica)
+
+El backend incluye un **panel web** para gestionar los clientes del resolver sin tocar Supabase ni SQL:
+
+- **URL**: `https://tu-resolver.onrender.com/admin` (o `http://localhost:3000/admin` en local).
+- **Acceso**: contraseña única definida en la variable de entorno `ADMIN_PASSWORD`.
+- **Funciones**: listar clientes, crear nuevo cliente, editar URL/nombre/estado, activar o desactivar.
+
+Si no defines `ADMIN_PASSWORD`, la ruta `/admin` devuelve 503 (panel deshabilitado). En Render, añade en **Environment**: `ADMIN_PASSWORD=tu-contraseña-segura`.
 
 ### Despliegue en Render
 
@@ -93,9 +103,42 @@ npm run dev
 2. **Root Directory**: `backend`
 3. **Build Command**: (vacío o `npm install`)
 4. **Start Command**: `npm start`
-5. **Environment**: `PORT` (automático), `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `ALLOWED_REDIRECT_HOSTS`
+5. **Environment**: `PORT` (automático), `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `ALLOWED_REDIRECT_HOSTS`, `ADMIN_PASSWORD` (para el panel admin)
 
 Después de desplegar, actualiza en el frontend `NEXT_PUBLIC_APP_LOGIN_URL` con la URL del servicio en Render (ej. `https://nexus-resolver.onrender.com`).
+
+### Cómo añadir nuevos clientes (nuevas URLs de login)
+
+**Opción A — Panel admin (recomendado):** entra a `/admin`, inicia sesión con `ADMIN_PASSWORD`, pulsa «Nuevo cliente» y rellena slug, URL de login y nombre. Luego añade el host en Render (ver paso 2).
+
+**Opción B — Supabase (SQL):**
+
+**1. Supabase — insertar el cliente**
+
+En [Supabase](https://supabase.com) → tu proyecto → **SQL Editor**, ejecuta:
+
+```sql
+insert into public.client_logins (slug, login_url, name) values
+  ('id_del_cliente', 'https://url-de-login-del-cliente.com/login', 'Nombre del cliente');
+```
+
+- **slug**: ID que el usuario escribe en el resolver (ej. `pizzeria_roma`, `clinica_sur`). Sin espacios, minúsculas.
+- **login_url**: URL completa a la que debe redirigir (tu app del cliente en Render, Vercel, etc.).
+- **name**: Nombre legible (opcional).
+
+Para desactivar un cliente sin borrarlo: `update public.client_logins set active = false where slug = 'id_del_cliente';`
+
+**2. Render — permitir el dominio del redirect**
+
+En [Render](https://dashboard.render.com) → tu **Web Service** del resolver → **Environment**, edita `ALLOWED_REDIRECT_HOSTS` y añade el **host** de la nueva URL (sin `https://`), separado por coma:
+
+```
+ALLOWED_REDIRECT_HOSTS=mic-saas-fontend.onrender.com,tu-app.onrender.com,nueva-app.onrender.com,localhost
+```
+
+Ejemplo: si `login_url` es `https://mi-cliente.onrender.com/auth`, añade `mi-cliente.onrender.com` a la variable. Si no lo añades, el resolver rechazará el redirect por seguridad (open redirect).
+
+Guarda los cambios en Render; el servicio se reiniciará solo. No hace falta redesplegar código para incluir nuevos clientes.
 
 ---
 
