@@ -6,6 +6,14 @@ import { Send, Loader2, AlertTriangle } from "lucide-react";
 const API_URL =
   process.env.NEXT_PUBLIC_NEXUS_API_URL || "http://localhost:8000";
 
+/** Mensaje largo que el backend a veces incluye; lo quitamos porque mostramos el aviso pequeño nosotros. */
+const LARGE_CONTACT_WARNING =
+  /⚠️?\s*\*\*Para poder seguir en contacto cuando salgas de esta página[\s\S]*?\*\*\.?\s*/gi;
+
+function stripLargeContactWarning(text: string): string {
+  return text.replace(LARGE_CONTACT_WARNING, "").trim();
+}
+
 function getSessionId(): string {
   if (typeof window === "undefined") return "";
   let id = sessionStorage.getItem("nexus_landing_session");
@@ -25,8 +33,14 @@ interface ChatMessage {
   needs_contact?: boolean;
 }
 
+const WELCOME_MESSAGE: ChatMessage = {
+  rol: "asistente",
+  content:
+    "Hola, soy Nexus y estoy aquí para ayudarte. Para darte una mejor atención, dame tu nombre y déjame un número de teléfono, correo o red social.",
+};
+
 export default function NexusChatPanel() {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([WELCOME_MESSAGE]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState("");
@@ -67,7 +81,7 @@ export default function NexusChatPanel() {
         ...prev,
         {
           rol: "asistente",
-          content: data.response || "",
+          content: stripLargeContactWarning(data.response || ""),
           needs_contact: data.needs_contact,
         },
       ]);
@@ -90,12 +104,6 @@ export default function NexusChatPanel() {
   return (
     <div className="flex flex-col h-[380px]">
       <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 min-h-0">
-        {messages.length === 0 && !loading && (
-          <p className="text-sm text-muted-foreground text-center py-4">
-            Escribe un mensaje y Nexus te responderá. Si nos dejas tu teléfono,
-            correo o red social, podremos seguir en contacto cuando salgas.
-          </p>
-        )}
         {messages.map((msg, i) => (
           <div
             key={i}
@@ -110,9 +118,9 @@ export default function NexusChatPanel() {
             >
               {msg.content}
               {msg.needs_contact && (
-                <div className="mt-2 pt-2 border-t border-amber-400/50 flex items-start gap-2">
-                  <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
-                  <span className="text-xs text-amber-700">
+                <div className="mt-2 pt-2 border-t border-red-200/60 flex items-start gap-2">
+                  <AlertTriangle className="h-3.5 w-3.5 text-red-500 shrink-0 mt-0.5" />
+                  <span className="text-xs text-red-600">
                     Para seguir en contacto al salir, deja tu teléfono, correo o
                     red social. Si no, se perderá la conversación.
                   </span>
