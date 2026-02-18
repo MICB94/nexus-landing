@@ -43,7 +43,7 @@ import FAQAccordion from "./components/FAQAccordion";
 const APP_LOGIN_URL =
   process.env.NEXT_PUBLIC_APP_LOGIN_URL || "https://nexus-resolver.onrender.com";
 
-// Canales de contacto con Nexus (chat embebido es Messenger; Instagram/Facebook/WhatsApp abren en nueva pestaña)
+// Canales de contacto: chat directo con Nexus (API) + Instagram/Facebook/WhatsApp en nueva pestaña
 const CONTACT_INSTAGRAM = process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com/mic_saas/";
 const CONTACT_FACEBOOK = process.env.NEXT_PUBLIC_FACEBOOK_URL || "https://www.facebook.com/profile.php?id=61586902978931";
 const CONTACT_WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_LINK || "";
@@ -669,7 +669,7 @@ export default function HomePage() {
                   <p className="text-sm font-semibold uppercase tracking-[0.3em] text-blue-600">Contacto</p>
                   <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl">¿Listo para conversar?</h2>
                   <p className="text-lg text-muted">
-                    Usa el botón <strong className="text-foreground">Hablemos</strong> y escribe por Instagram o Facebook sin salir de la página. Unimos todo en un mismo punto de contacto para que no tengas que elegir.
+                    Usa el botón <strong className="text-foreground">Hablemos</strong> y chatea directo con Nexus sin salir de la página, o escríbenos por Instagram o Facebook. Todo en un mismo punto de contacto.
                   </p>
                 </div>
                 <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-sm font-medium">
