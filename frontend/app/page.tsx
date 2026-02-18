@@ -32,6 +32,7 @@ import {
   Cog,
   HeartPulse,
   GraduationCap,
+  Layers,
   Check,
   X,
 } from "lucide-react";
@@ -435,13 +436,21 @@ export default function HomePage() {
                   <p className="text-sm text-muted mb-3">Agenda y reservas, CRM con historial de servicios, inventario de productos. IA para consultas, recordatorios y marketing de fidelización.</p>
                   <p className="text-xs font-medium text-pink-700">Salones de belleza, barberías, clínicas estéticas, spas</p>
                 </div>
-                <div className="rounded-2xl border border-indigo-500/25 bg-indigo-500/5 p-6 transition-all duration-300 hover:border-indigo-400/40 hover:shadow-lg animate-card-hover sm:col-span-2 lg:col-span-1">
+                <div className="rounded-2xl border border-indigo-500/25 bg-indigo-500/5 p-6 transition-all duration-300 hover:border-indigo-400/40 hover:shadow-lg animate-card-hover">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-500/20">
                     <GraduationCap className="h-6 w-6 text-indigo-600" />
                   </div>
                   <h3 className="mb-2 text-lg font-semibold text-foreground">Educación</h3>
                   <p className="text-sm text-muted mb-3">Comunicación con apoderados, agenda de reuniones, inventario de materiales. Pagos de mensualidades. IA para consultas frecuentes y avisos.</p>
                   <p className="text-xs font-medium text-indigo-700">Colegios, liceos, instituciones educativas</p>
+                </div>
+                <div className="rounded-2xl border border-blue-500/25 bg-blue-500/5 p-6 transition-all duration-300 hover:border-blue-400/40 hover:shadow-lg animate-card-hover sm:col-span-2 lg:col-span-1">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/20">
+                    <Layers className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <h3 className="mb-2 text-lg font-semibold text-foreground">Cualquier sector</h3>
+                  <p className="text-sm text-muted mb-3">No importa tu industria ni tu actividad: nos adaptamos. Los módulos se configuran a tu realidad. Si tu negocio es distinto, lo construimos contigo.</p>
+                  <p className="text-xs font-medium text-blue-700">Consultorías, servicios profesionales, logística, y más</p>
                 </div>
               </div>
             </AnimateInView>
